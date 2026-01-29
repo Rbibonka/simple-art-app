@@ -1,27 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LazyImageLoader : MonoBehaviour
+public class GalleryButtonController : MonoBehaviour
 {
     public int ImageIndex => imageIndex;
 
-    public bool IsLoaded => isLoaded;
+    public bool IsLoading => isLoading;
 
     [SerializeField]
     private Image image;
 
     private int imageIndex;
 
-    private bool isLoaded;
+    private bool isLoading;
 
     public void Initialize(int imageIndex)
     {
         this.imageIndex = imageIndex;
     }
 
+    public void StartLoading()
+    {
+        isLoading = true;
+    }
+
     public void SetSprite(Sprite sprite)
     {
         image.sprite = sprite;
-        isLoaded = true;
     }
 }

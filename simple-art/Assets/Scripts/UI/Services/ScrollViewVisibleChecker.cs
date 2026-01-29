@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public class ScrollViewVisibleChecker
 {
-    public event Action<LazyImageLoader> imageButtonIsVisible;
+    public event Action<GalleryButtonController> imageButtonIsVisible;
 
     private ScrollRect scrollRect;
 
-    private IReadOnlyList<LazyImageLoader> items;
+    private IReadOnlyList<GalleryButtonController> items;
 
     public ScrollViewVisibleChecker(
         ScrollRect scrollRect,
-        IReadOnlyList<LazyImageLoader> items)
+        IReadOnlyList<GalleryButtonController> items)
     {
         this.scrollRect = scrollRect;
         this.items = items;
 
         this.scrollRect.onValueChanged.AddListener(_ => CheckVisibility());
+    }
+
+    public void InitialCheck()
+    {
+        CheckVisibility();
     }
 
     private void CheckVisibility()

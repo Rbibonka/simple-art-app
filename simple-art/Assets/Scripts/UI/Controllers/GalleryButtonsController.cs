@@ -1,15 +1,16 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GalleryButtonController : MonoBehaviour
+public class GalleryButtonsController : MonoBehaviour
 {
     [SerializeField]
     private ScrollRect scrollRect;
 
     [SerializeField]
-    private LazyImageLoader imageButtonPrefab;
+    private GalleryButtonController imageButtonPrefab;
 
     [SerializeField]
     private RectTransform content;
@@ -18,16 +19,12 @@ public class GalleryButtonController : MonoBehaviour
 
     private ImageLoader imageLoader;
 
-    private List<LazyImageLoader> items;
+    private List<GalleryButtonController> items;
 
-    private CancellationTokenSource cts;
-
-    public void Start()
+    public async void Start()
     {
         items = new();
         imageLoader = new();
-
-        cts = new();
 
         for (int i = 1; i < 66; i++)
         {
@@ -37,8 +34,11 @@ public class GalleryButtonController : MonoBehaviour
             items.Add(item);
         }
 
+        await UniTask.NextFrame();
+
         scrollViewVisibleChecker = new(scrollRect, items);
         scrollViewVisibleChecker.imageButtonIsVisible += ImageButtonIsVisible;
+        scrollViewVisibleChecker.InitialCheck();
     }
 
     private void OnDestroy()
@@ -46,12 +46,14 @@ public class GalleryButtonController : MonoBehaviour
         imageLoader.Dispose();
     }
 
-    private void ImageButtonIsVisible(LazyImageLoader imageButton)
+    private void ImageButtonIsVisible(GalleryButtonController imageButton)
     {
-        if (imageButton.IsLoaded)
+        if (imageButton.IsLoading)
         {
             return;
         }
+
+        imageButton.StartLoading();
 
         imageLoader.Enqueue(imageButton.ImageIndex, sprite =>
         {
