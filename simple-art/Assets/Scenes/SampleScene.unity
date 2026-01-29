@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 117477922}
   - component: {fileID: 117477921}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 141428691}
   - component: {fileID: 141428690}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -780,6 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 315468162}
+  - component: {fileID: 315468163}
   m_Layer: 5
   m_Name: grp_Carousel
   m_TagString: Untagged
@@ -808,6 +809,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -361}
   m_SizeDelta: {x: 1440, y: 722}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &315468163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315468161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c38b281a56b8d64ca621b00acee3f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 291389920}
+  panels:
+  - {fileID: 940405443}
+  - {fileID: 704797998}
+  - {fileID: 622758903}
+  spacing: 0
+  moveDuration: 0.5
+  ease: 10
+  activeSprite: {fileID: 21300000, guid: 3ff2db783bb42fd469d35dc0f16f2060, type: 3}
+  inactiveSprite: {fileID: 21300000, guid: d71f565d0df645741ad8719c9c14bf6c, type: 3}
+  dots:
+  - {fileID: 141428690}
+  - {fileID: 117477921}
+  - {fileID: 2090268889}
+  switchDelay: 2
 --- !u!1 &436148216
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,7 +2278,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1678373143}
-  - component: {fileID: 1678373144}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -2280,23 +2307,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1678373144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1678373142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ce21cac378fc74f9f4d99af70b9a35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDistance: 1
-  moveDuration: 1
-  content: {fileID: 315468162}
-  resetPositionX: -2238
-  startPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1686731271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2940,7 +2950,7 @@ GameObject:
   - component: {fileID: 2090268890}
   - component: {fileID: 2090268889}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2978,7 +2988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
