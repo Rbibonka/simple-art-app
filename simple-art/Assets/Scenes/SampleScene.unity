@@ -1122,6 +1122,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1109867507 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8208989412179293892, guid: ce8a672b6959e9b4cbd364018b23055d, type: 3}
+  m_PrefabInstance: {fileID: 3375198680422753018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c38b281a56b8d64ca621b00acee3f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1233861111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,6 +1521,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580979410}
   m_CullTransparentMesh: 1
+--- !u!1 &1591779886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1591779888}
+  - component: {fileID: 1591779887}
+  m_Layer: 0
+  m_Name: Bootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1591779887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591779886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806d93ef6325d334bbd7b726847543ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  galleryButtonsController: {fileID: 1969222757}
+  carouselController: {fileID: 1109867507}
+--- !u!4 &1591779888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591779886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6446499, y: 1.9521911, z: 279.7664}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1618592070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,7 +2100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollRect: {fileID: 1871588990}
-  imageButtonPrefab: {fileID: 4814555874030423182, guid: f87ea36e51a654e4595432ca2fe1ec04, type: 3}
+  imageButtonPrefab: {fileID: 5452046010678642972, guid: f87ea36e51a654e4595432ca2fe1ec04, type: 3}
   content: {fileID: 1651697369}
 --- !u!1 &2097885938
 GameObject:
@@ -2290,5 +2347,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1591779888}
   - {fileID: 814012985}
   - {fileID: 2126851022}

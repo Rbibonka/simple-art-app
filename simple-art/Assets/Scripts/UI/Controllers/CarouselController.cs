@@ -39,7 +39,7 @@ public class CarouselController : MonoBehaviour
     private CarouselView carouselView;
     private CarouselDotsView carouselDotsView;
 
-    private void Start()
+    public void Initialize()
     {
         carouselView = new(content, panels, spacing, moveDuration, ease);
         carouselDotsView = new(activeSprite, inactiveSprite, dots);
@@ -51,6 +51,11 @@ public class CarouselController : MonoBehaviour
         carouselDotsView.SetActive(model.CurrentIndex);
 
         InvokeRepeating(nameof(NextSlide), switchDelay, switchDelay);
+    }
+
+    public void Deinitialize()
+    {
+        model.OnSlideChanged -= HandleSlideChanged;
     }
 
     private void NextSlide()

@@ -3,6 +3,7 @@ using System;
 public class CarouselModel
 {
     public int CurrentIndex { get; private set; }
+
     public int SlidesCount { get; }
 
     public event Action<int> OnSlideChanged;
@@ -17,14 +18,19 @@ public class CarouselModel
     {
         CurrentIndex++;
         if (CurrentIndex >= SlidesCount)
+        {
             CurrentIndex = 0;
+        }
 
         OnSlideChanged?.Invoke(CurrentIndex);
     }
 
     public void SetIndex(int index)
     {
-        if (index < 0 || index >= SlidesCount) return;
+        if (index < 0 || index >= SlidesCount)
+        {
+            return;
+        }
 
         CurrentIndex = index;
         OnSlideChanged?.Invoke(CurrentIndex);

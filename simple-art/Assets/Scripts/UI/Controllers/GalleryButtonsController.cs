@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +20,7 @@ public class GalleryButtonsController : MonoBehaviour
 
     private List<GalleryButtonController> items;
 
-    public async void Start()
+    public async UniTask InitializeAsync()
     {
         items = new();
         imageLoader = new();
@@ -35,13 +34,14 @@ public class GalleryButtonsController : MonoBehaviour
         }
 
         await UniTask.NextFrame();
+        await UniTask.NextFrame();
 
         scrollViewVisibleChecker = new(scrollRect, items);
         scrollViewVisibleChecker.imageButtonIsVisible += ImageButtonIsVisible;
         scrollViewVisibleChecker.InitialCheck();
     }
 
-    private void OnDestroy()
+    public void Deinitialize()
     {
         imageLoader.Dispose();
     }
