@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,15 +14,21 @@ public class GalleryButtonController : PoolableObject
     [SerializeField]
     private RectTransform grp_Premium;
 
+    [SerializeField]
+    private RectTransform loader;
+
     private GalleryButtonModel galleryButtonModel;
     private GalleryButtonView galleryButtonView;
+
+    private Tween spinTween;
 
     public void Initialize(int index, bool isPremium)
     {
         galleryButtonModel = new(index, isPremium);
-        galleryButtonView = new(grp_Premium, img_Content);
+        galleryButtonView = new(grp_Premium, img_Content, loader);
 
         SetType();
+        spinTween = galleryButtonView.StartLoadScreen();
     }
 
     public void EnableLoading()
@@ -32,10 +39,12 @@ public class GalleryButtonController : PoolableObject
     public void SetSprite(Sprite sprite)
     {
         galleryButtonView.SetSprite(sprite);
+        spinTween.Kill();
     }
 
     public void ResetSprite()
     {
+        spinTween = galleryButtonView.StartLoadScreen();
         galleryButtonView.ResetSprite();
     }
 
