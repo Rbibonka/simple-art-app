@@ -14,35 +14,18 @@ public class GalleryButtonsController : MonoBehaviour
     [SerializeField]
     private RectTransform content;
 
+    private ImageButtonsCreator imageButtonsSetter;
     private ScrollViewVisibleChecker scrollViewVisibleChecker;
-
     private ImageLoader imageLoader;
-
     private List<GalleryButtonController> items;
-
-    private BaseObjectPool<GalleryButtonController> galleryButtonPool;
 
     public async UniTask InitializeAsync()
     {
         items = new();
         imageLoader = new();
+        imageButtonsSetter = new(imageButtonPrefab, content);
 
-        galleryButtonPool = new(imageButtonPrefab, content);
-
-        for (int i = 1; i < 66; i++)
-        {
-            var item = galleryButtonPool.GetFromPool();
-
-            bool isPremium = false;
-
-            if (i % 4 == 0)
-            {
-                isPremium = true;
-            }
-
-            item.Initialize(i, isPremium);
-            items.Add(item);
-        }
+        items = imageButtonsSetter.CreateOddImageButtons();
 
         await UniTask.NextFrame();
         await UniTask.NextFrame();
