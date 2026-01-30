@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,9 @@ public class GalleryButtonController : PoolableObject
     public int Index => galleryButtonModel.Index;
 
     public bool IsLoading => galleryButtonModel.IsLoading;
+
+    [SerializeField]
+    private Button btn_ImageButton;
 
     [SerializeField]
     private Image img_Content;
@@ -22,6 +26,8 @@ public class GalleryButtonController : PoolableObject
 
     private Tween spinTween;
 
+    public event Action<bool> ButtonClicked;
+
     public void Initialize(int index, bool isPremium)
     {
         galleryButtonModel = new(index, isPremium);
@@ -30,6 +36,13 @@ public class GalleryButtonController : PoolableObject
         SetType();
         spinTween = galleryButtonView.StartLoadScreen();
         galleryButtonView.ShowLoader();
+
+        btn_ImageButton.onClick.AddListener(OnButtonClicked);
+    }
+
+    public void Deinitialize()
+    {
+        btn_ImageButton.onClick.RemoveListener(OnButtonClicked);
     }
 
     public void EnableLoading()
@@ -50,6 +63,11 @@ public class GalleryButtonController : PoolableObject
         galleryButtonView.ShowLoader();
 
         galleryButtonView.ResetSprite();
+    }
+
+    private void OnButtonClicked()
+    {
+        ButtonClicked?.Invoke(galleryButtonModel.IsPremium);
     }
 
     private void SetType()

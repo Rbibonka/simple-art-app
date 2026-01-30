@@ -50,6 +50,20 @@ public class GalleryButtonsController : MonoBehaviour
         this.tabBarController.ButtonOddClicked += ButtonOddClicked;
         this.tabBarController.ButtonAllClicked += ButtonAllClicked;
         this.tabBarController.ButtonEvenClicked += ButtonEvenClicked;
+
+        imageButtonsSetter.ButtonClicked += OnButtonClicked;
+    }
+
+    private void OnButtonClicked(bool isPremium)
+    {
+        if (isPremium)
+        {
+            Debug.Log("Pre");
+        }
+        else
+        {
+            Debug.Log("Ne Pre");
+        }
     }
 
     public void Deinitialize()

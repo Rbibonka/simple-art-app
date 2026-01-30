@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ImageButtonsCreator
 {
+    public event Action<bool> ButtonClicked;
+
     private BaseObjectPool<GalleryButtonController> galleryButtonPool;
     private List<GalleryButtonController> imageButtons;
 
@@ -33,6 +36,9 @@ public class ImageButtonsCreator
         {
             imageButtons[i].gameObject.SetActive(false);
             imageButtons[i].ResetSprite();
+            imageButtons[i].Deinitialize();
+            imageButtons[i].ButtonClicked -= OnButtonClicked;
+
             galleryButtonPool.SetToPool(imageButtons[i]);
         }
 
@@ -91,9 +97,16 @@ public class ImageButtonsCreator
             }
 
             item.Initialize(indexes[i], isPremium);
+            item.ButtonClicked += OnButtonClicked;
+
             imageButtons.Add(item);
         }
 
         return imageButtons;
+    }
+
+    private void OnButtonClicked(bool isPremium)
+    {
+        ButtonClicked?.Invoke(isPremium);
     }
 }
