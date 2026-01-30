@@ -12,9 +12,24 @@ public class Bootstrap : MonoBehaviour
     [SerializeField]
     private TabBarController tabBarController;
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool debugMode;
+
+    [SerializeField]
+    private bool isTablet;
+
     private async void Awake()
     {
-        await galleryButtonsController.InitializeAsync(tabBarController);
+        if (debugMode)
+        {
+            await galleryButtonsController.InitializeAsync(tabBarController, isTablet);
+        }
+        else
+        {
+            await galleryButtonsController.InitializeAsync(tabBarController, DeviceUtils.IsTablet());
+        }
+
         carouselController.Initialize();
         tabBarController.Initialize();
     }

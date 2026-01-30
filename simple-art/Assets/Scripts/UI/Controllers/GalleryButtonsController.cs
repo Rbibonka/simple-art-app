@@ -29,13 +29,16 @@ public class GalleryButtonsController : MonoBehaviour
     [SerializeField]
     private PopupController defaultPopupController;
 
+    [SerializeField]
+    private GridLayoutGroup gridLayoutGroup;
+
     private TabBarController tabBarController;
     private ImageButtonsCreator imageButtonsSetter;
     private ScrollViewController scrollViewController;
     private ImageLoader imageLoader;
     private List<GalleryButtonController> items;
 
-    public async UniTask InitializeAsync(TabBarController tabBarController)
+    public async UniTask InitializeAsync(TabBarController tabBarController, bool isTablet)
     {
         this.tabBarController = tabBarController;
 
@@ -49,7 +52,9 @@ public class GalleryButtonsController : MonoBehaviour
         imageLoader = new();
         imageButtonsSetter = new(imageButtonPrefab, content, emptyPoolParent);
 
-        items = imageButtonsSetter.CreateAllImageButtons();
+        items = imageButtonsSetter.CreateOddImageButtons();
+
+        SetGalleryGrid(isTablet);
 
         await UniTask.NextFrame();
         await UniTask.NextFrame();
@@ -152,5 +157,19 @@ public class GalleryButtonsController : MonoBehaviour
                 imageButton.SetSprite(defaultSprite);
             }
         });
+    }
+
+    private void SetGalleryGrid(bool isTablet)
+    {
+        if (isTablet)
+        {
+            gridLayoutGroup.cellSize = new Vector2(400, 400);
+            gridLayoutGroup.constraintCount = 3;
+
+            return;
+        }
+
+        gridLayoutGroup.cellSize = new Vector2(640, 640);
+        gridLayoutGroup.constraintCount = 2;
     }
 }
