@@ -4,42 +4,58 @@ using UnityEngine;
 public class ImageButtonsCreator
 {
     private BaseObjectPool<GalleryButtonController> galleryButtonPool;
-    private GalleryButtonController imageButtonPrefab;
+    private List<GalleryButtonController> imageButtons;
 
     private RectTransform content;
-    private List<GalleryButtonController> imageButtons;
 
     private List<int> oddIndexes;
     private List<int> evenIndexes;
-    private List<int> fullIndexes;
+    private List<int> allIndexes;
 
-    public ImageButtonsCreator(GalleryButtonController imageButtonPrefab, RectTransform content)
+    public ImageButtonsCreator(GalleryButtonController imageButtonPrefab, RectTransform content, RectTransform parent)
     {
-        this.imageButtonPrefab = imageButtonPrefab;
         this.content = content;
 
         imageButtons = new();
 
         oddIndexes = new();
         evenIndexes = new();
-        fullIndexes = new();
+        allIndexes = new();
+
+        galleryButtonPool = new(imageButtonPrefab, parent);
 
         CreateIndexes();
     }
 
+    public void DeleteCurrentImageButtons()
+    {
+        for (int i = 0; i < imageButtons.Count; i++)
+        {
+            imageButtons[i].gameObject.SetActive(false);
+            imageButtons[i].ResetSprite();
+            galleryButtonPool.SetToPool(imageButtons[i]);
+        }
+
+        imageButtons.Clear();
+    }
+
     public List<GalleryButtonController> CreateOddImageButtons()
     {
+        DeleteCurrentImageButtons();
+
         return CreateImageButtons(oddIndexes);
     }
 
     public List<GalleryButtonController> CreateEvenImageButtons()
     {
+        DeleteCurrentImageButtons();
         return CreateImageButtons(evenIndexes);
     }
 
-    public List<GalleryButtonController> CreateFullImageButtons()
+    public List<GalleryButtonController> CreateAllImageButtons()
     {
-        return CreateImageButtons(fullIndexes);
+        DeleteCurrentImageButtons();
+        return CreateImageButtons(allIndexes);
     }
 
     private void CreateIndexes()
@@ -55,21 +71,21 @@ public class ImageButtonsCreator
                 oddIndexes.Add(i);
             }
 
-            fullIndexes.Add(i);
+            allIndexes.Add(i);
         }
     }
 
     private List<GalleryButtonController> CreateImageButtons(List<int> indexes)
     {
-        galleryButtonPool = new(imageButtonPrefab, content);
-
-        for (int i = 1; i < indexes.Count; i++)
+        for (int i = 0; i < indexes.Count; i++)
         {
             var item = galleryButtonPool.GetFromPool();
+            item.gameObject.SetActive(true);
+            item.transform.SetParent(content, false);
 
             bool isPremium = false;
 
-            if (i % 4 == 0)
+            if ((i + 1) % 4 == 0)
             {
                 isPremium = true;
             }

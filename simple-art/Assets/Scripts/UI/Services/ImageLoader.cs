@@ -13,21 +13,24 @@ public class ImageLoader : IDisposable
         public Action<Sprite> Callback;
     }
 
-    private string baseUrl = "http://data.ikppbb.com/test-task-unity-data/pics/";
+    private readonly string baseUrl = "http://data.ikppbb.com/test-task-unity-data/pics/";
+
+    private readonly Queue<Request> queue = new Queue<Request>();
+
+    private CancellationTokenSource cts;
+    private bool isProcessing;
+    private bool disposed;
 
     public ImageLoader()
     {
-        cts = new();
+        cts = new CancellationTokenSource();
     }
-
-    private readonly Queue<Request> queue = new Queue<Request>();
-    private bool isProcessing;
-
-    private CancellationTokenSource cts;
-    private bool disposed;
 
     public void Enqueue(int index, Action<Sprite> onCompleted)
     {
+        if (disposed)
+            return;
+
         queue.Enqueue(new Request
         {
             Url = baseUrl + index + ".jpg",
@@ -40,18 +43,71 @@ public class ImageLoader : IDisposable
         }
     }
 
+    public void StopAndClear()
+    {
+        if (disposed)
+            return;
+
+        cts.Cancel();
+        cts.Dispose();
+
+        cts = new CancellationTokenSource();
+
+        queue.Clear();
+        isProcessing = false;
+    }
+
+    public void Restart()
+    {
+        if (disposed)
+            return;
+
+        StopAndClear();
+
+        if (queue.Count > 0 && !isProcessing)
+        {
+            _ = ProcessQueueAsync(cts.Token);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (disposed)
+            return;
+
+        disposed = true;
+
+        cts.Cancel();
+        cts.Dispose();
+        cts = null;
+
+        queue.Clear();
+    }
+
     private async UniTaskVoid ProcessQueueAsync(CancellationToken ct)
     {
         isProcessing = true;
 
-        while (queue.Count > 0)
+        try
         {
-            var request = queue.Dequeue();
-            var sprite = await DownloadSpriteAsync(request.Url, ct).AttachExternalCancellation(ct);
-            request.Callback?.Invoke(sprite);
-        }
+            while (queue.Count > 0)
+            {
+                ct.ThrowIfCancellationRequested();
 
-        isProcessing = false;
+                var request = queue.Dequeue();
+                var sprite = await DownloadSpriteAsync(request.Url, ct);
+
+                request.Callback?.Invoke(sprite);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            
+        }
+        finally
+        {
+            isProcessing = false;
+        }
     }
 
     private async UniTask<Sprite> DownloadSpriteAsync(string url, CancellationToken ct)
@@ -76,25 +132,14 @@ public class ImageLoader : IDisposable
                 new Vector2(0.5f, 0.5f)
             );
         }
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
         catch (Exception e)
         {
             Debug.LogException(e);
             return null;
         }
-    }
-
-    public void Dispose()
-    {
-        if (disposed)
-        {
-            return;
-        }
-
-        disposed = true;
-
-        cts?.Cancel();
-        cts?.Dispose();
-
-        cts = null;
     }
 }

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,35 +10,69 @@ public class GalleryButtonsController : MonoBehaviour
     private ScrollRect scrollRect;
 
     [SerializeField]
+    private Scrollbar scrollbar;
+
+    [SerializeField]
     private GalleryButtonController imageButtonPrefab;
 
     [SerializeField]
     private RectTransform content;
 
+    [SerializeField]
+    private RectTransform emptyPoolParent;
+
+    private TabBarController tabBarController;
     private ImageButtonsCreator imageButtonsSetter;
-    private ScrollViewVisibleChecker scrollViewVisibleChecker;
+    private ScrollViewController scrollViewController;
     private ImageLoader imageLoader;
     private List<GalleryButtonController> items;
 
-    public async UniTask InitializeAsync()
+    public async UniTask InitializeAsync(TabBarController tabBarController)
     {
+        this.tabBarController = tabBarController;
+
         items = new();
         imageLoader = new();
-        imageButtonsSetter = new(imageButtonPrefab, content);
+        imageButtonsSetter = new(imageButtonPrefab, content, emptyPoolParent);
 
-        items = imageButtonsSetter.CreateOddImageButtons();
+        items = imageButtonsSetter.CreateAllImageButtons();
 
         await UniTask.NextFrame();
         await UniTask.NextFrame();
 
-        scrollViewVisibleChecker = new(scrollRect, items);
-        scrollViewVisibleChecker.imageButtonIsVisible += ImageButtonIsVisible;
-        scrollViewVisibleChecker.InitialCheck();
+        scrollViewController = new(scrollRect, scrollbar, items);
+        scrollViewController.imageButtonIsVisible += ImageButtonIsVisible;
+        scrollViewController.InitialCheck();
+
+        this.tabBarController.ButtonOddClicked += ButtonOddClicked;
+        this.tabBarController.ButtonAllClicked += ButtonAllClicked;
+        this.tabBarController.ButtonEvenClicked += ButtonEvenClicked;
     }
 
     public void Deinitialize()
     {
         imageLoader.Dispose();
+    }
+
+    private void ButtonEvenClicked()
+    {
+        imageLoader.Restart();
+        imageButtonsSetter.CreateEvenImageButtons();
+        scrollViewController.ResetScroll();
+    }
+
+    private void ButtonAllClicked()
+    {
+        imageLoader.Restart();
+        imageButtonsSetter.CreateAllImageButtons();
+        scrollViewController.ResetScroll();
+    }
+
+    private void ButtonOddClicked()
+    {
+        imageLoader.Restart();
+        imageButtonsSetter.CreateOddImageButtons();
+        scrollViewController.ResetScroll();
     }
 
     private void ImageButtonIsVisible(GalleryButtonController imageButton)

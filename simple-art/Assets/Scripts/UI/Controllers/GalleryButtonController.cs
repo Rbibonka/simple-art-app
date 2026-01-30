@@ -34,6 +34,11 @@ public class GalleryButtonController : PoolableObject
         galleryButtonView.SetSprite(sprite);
     }
 
+    public void ResetSprite()
+    {
+        galleryButtonView.ResetSprite();
+    }
+
     private void SetType()
     {
         if (galleryButtonModel.IsPremium)

@@ -28,4 +28,9 @@ public class GalleryButtonView
     {
         image.sprite = sprite;
     }
+
+    public void ResetSprite()
+    {
+        image.sprite = null;
+    }
 }

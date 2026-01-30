@@ -1,21 +1,25 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollViewVisibleChecker
+public class ScrollViewController
 {
     public event Action<GalleryButtonController> imageButtonIsVisible;
 
     private ScrollRect scrollRect;
+    private Scrollbar scrollbar;
 
     private IReadOnlyList<GalleryButtonController> items;
 
-    public ScrollViewVisibleChecker(
+    public ScrollViewController(
         ScrollRect scrollRect,
+        Scrollbar scrollbar,
         IReadOnlyList<GalleryButtonController> items)
     {
         this.scrollRect = scrollRect;
+        this.scrollbar = scrollbar;
         this.items = items;
 
         this.scrollRect.onValueChanged.AddListener(_ => CheckVisibility());
@@ -24,6 +28,19 @@ public class ScrollViewVisibleChecker
     public void InitialCheck()
     {
         CheckVisibility();
+    }
+
+    public void ResetScroll()
+    {
+        float target = 1;
+
+        DOTween.To(
+            () => scrollbar.value,
+            x => scrollbar.value = x,
+            Mathf.Clamp01(target),
+            0.5f
+        )
+        .SetEase(Ease.OutQuad);
     }
 
     private void CheckVisibility()

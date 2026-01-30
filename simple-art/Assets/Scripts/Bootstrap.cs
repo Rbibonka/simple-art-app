@@ -9,15 +9,20 @@ public class Bootstrap : MonoBehaviour
     [SerializeField]
     private CarouselController carouselController;
 
+    [SerializeField]
+    private TabBarController tabBarController;
+
     private async void Awake()
     {
+        await galleryButtonsController.InitializeAsync(tabBarController);
         carouselController.Initialize();
-        await galleryButtonsController.InitializeAsync();
+        tabBarController.Initialize();
     }
 
     private void OnDestroy()
     {
         galleryButtonsController.Deinitialize();
+        tabBarController.Deinitialize();
         carouselController.Deinitialize();
     }
 }
