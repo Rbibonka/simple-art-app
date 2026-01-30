@@ -21,6 +21,9 @@ public class GalleryButtonsController : MonoBehaviour
     [SerializeField]
     private RectTransform emptyPoolParent;
 
+    [SerializeField]
+    private Sprite defaultSprite;
+
     private TabBarController tabBarController;
     private ImageButtonsCreator imageButtonsSetter;
     private ScrollViewController scrollViewController;
@@ -89,6 +92,10 @@ public class GalleryButtonsController : MonoBehaviour
             if (sprite != null)
             {
                 imageButton.SetSprite(sprite);
+            }
+            else
+            {
+                imageButton.SetSprite(defaultSprite);
             }
         });
     }

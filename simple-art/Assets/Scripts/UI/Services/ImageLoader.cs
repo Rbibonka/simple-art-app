@@ -73,7 +73,9 @@ public class ImageLoader : IDisposable
     public void Dispose()
     {
         if (disposed)
+        {
             return;
+        }
 
         disposed = true;
 
@@ -102,7 +104,7 @@ public class ImageLoader : IDisposable
         }
         catch (OperationCanceledException)
         {
-            
+            Debug.Log("Operation canceled");
         }
         finally
         {

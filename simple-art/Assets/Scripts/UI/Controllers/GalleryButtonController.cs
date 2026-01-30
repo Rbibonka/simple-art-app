@@ -29,6 +29,7 @@ public class GalleryButtonController : PoolableObject
 
         SetType();
         spinTween = galleryButtonView.StartLoadScreen();
+        galleryButtonView.ShowLoader();
     }
 
     public void EnableLoading()
@@ -39,12 +40,15 @@ public class GalleryButtonController : PoolableObject
     public void SetSprite(Sprite sprite)
     {
         galleryButtonView.SetSprite(sprite);
+        galleryButtonView.HideLoader();
         spinTween.Kill();
     }
 
     public void ResetSprite()
     {
         spinTween = galleryButtonView.StartLoadScreen();
+        galleryButtonView.ShowLoader();
+
         galleryButtonView.ResetSprite();
     }
 

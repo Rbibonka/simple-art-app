@@ -38,6 +38,16 @@ public class GalleryButtonView
         image.sprite = null;
     }
 
+    public void HideLoader()
+    {
+        loader.gameObject.SetActive(false);
+    }
+
+    public void ShowLoader()
+    {
+        loader.gameObject.SetActive(true);
+    }
+
     public Tween StartLoadScreen(float duration = 1f)
     {
         return loader
