@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ImageButtonsCreator
 {
-    public event Action<bool> ButtonClicked;
+    public event Action<GalleryButtonController> ButtonClicked;
 
     private BaseObjectPool<GalleryButtonController> galleryButtonPool;
     private List<GalleryButtonController> imageButtons;
@@ -105,8 +105,8 @@ public class ImageButtonsCreator
         return imageButtons;
     }
 
-    private void OnButtonClicked(bool isPremium)
+    private void OnButtonClicked(GalleryButtonController button)
     {
-        ButtonClicked?.Invoke(isPremium);
+        ButtonClicked?.Invoke(button);
     }
 }

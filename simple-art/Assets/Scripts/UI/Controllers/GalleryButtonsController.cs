@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +23,12 @@ public class GalleryButtonsController : MonoBehaviour
     [SerializeField]
     private Sprite defaultSprite;
 
+    [SerializeField]
+    private PopupController premiumPopupController;
+
+    [SerializeField]
+    private PopupController defaultPopupController;
+
     private TabBarController tabBarController;
     private ImageButtonsCreator imageButtonsSetter;
     private ScrollViewController scrollViewController;
@@ -33,6 +38,12 @@ public class GalleryButtonsController : MonoBehaviour
     public async UniTask InitializeAsync(TabBarController tabBarController)
     {
         this.tabBarController = tabBarController;
+
+        premiumPopupController.Initialize();
+        premiumPopupController.buttonBackClicked += OnButtonBackClicked;
+
+        defaultPopupController.Initialize();
+        defaultPopupController.buttonBackClicked += OnButtonBackClicked;
 
         items = new();
         imageLoader = new();
@@ -54,21 +65,50 @@ public class GalleryButtonsController : MonoBehaviour
         imageButtonsSetter.ButtonClicked += OnButtonClicked;
     }
 
-    private void OnButtonClicked(bool isPremium)
+    private void OnButtonBackClicked()
     {
-        if (isPremium)
+        premiumPopupController.Hide();
+        defaultPopupController.Hide();
+    }
+
+    private void OnButtonClicked(GalleryButtonController button)
+    {
+        if (button.IsPremium)
         {
-            Debug.Log("Pre");
+            premiumPopupController.Show();
         }
         else
         {
-            Debug.Log("Ne Pre");
+            if (button.Sprite == null)
+            {
+                defaultPopupController.SetupContent(defaultSprite);
+            }
+            else
+            {
+                defaultPopupController.SetupContent(button.Sprite);
+            }
+
+            defaultPopupController.Show();
         }
     }
 
     public void Deinitialize()
     {
+        premiumPopupController.buttonBackClicked -= OnButtonBackClicked;
+        scrollViewController.imageButtonIsVisible -= ImageButtonIsVisible;
+
+        tabBarController.ButtonOddClicked -= ButtonOddClicked;
+        tabBarController.ButtonAllClicked -= ButtonAllClicked;
+        tabBarController.ButtonEvenClicked -= ButtonEvenClicked;
+
+        imageButtonsSetter.ButtonClicked -= OnButtonClicked;
+
+        defaultPopupController.buttonBackClicked -= OnButtonBackClicked;
+
         imageLoader.Dispose();
+
+        premiumPopupController.Deinitialize();
+        defaultPopupController.Deinitialize();
     }
 
     private void ButtonEvenClicked()

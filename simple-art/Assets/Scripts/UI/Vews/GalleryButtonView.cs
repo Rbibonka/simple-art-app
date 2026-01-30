@@ -48,10 +48,9 @@ public class GalleryButtonView
         loader.gameObject.SetActive(true);
     }
 
-    public Tween StartLoadScreen(float duration = 1f)
+    public void StartLoadScreen(float duration = 1f)
     {
-        return loader
-            .DORotate(
+        loader.DORotate(
                 new Vector3(0f, 0f, -360f),
                 duration,
                 RotateMode.FastBeyond360

@@ -9,6 +9,10 @@ public class GalleryButtonController : PoolableObject
 
     public bool IsLoading => galleryButtonModel.IsLoading;
 
+    public bool IsPremium => galleryButtonModel.IsPremium;
+
+    public Sprite Sprite => img_Content.sprite;
+
     [SerializeField]
     private Button btn_ImageButton;
 
@@ -24,9 +28,12 @@ public class GalleryButtonController : PoolableObject
     private GalleryButtonModel galleryButtonModel;
     private GalleryButtonView galleryButtonView;
 
-    private Tween spinTween;
+    public event Action<GalleryButtonController> ButtonClicked;
 
-    public event Action<bool> ButtonClicked;
+    private void Start()
+    {
+        galleryButtonView.StartLoadScreen();
+    }
 
     public void Initialize(int index, bool isPremium)
     {
@@ -34,7 +41,6 @@ public class GalleryButtonController : PoolableObject
         galleryButtonView = new(grp_Premium, img_Content, loader);
 
         SetType();
-        spinTween = galleryButtonView.StartLoadScreen();
         galleryButtonView.ShowLoader();
 
         btn_ImageButton.onClick.AddListener(OnButtonClicked);
@@ -54,12 +60,10 @@ public class GalleryButtonController : PoolableObject
     {
         galleryButtonView.SetSprite(sprite);
         galleryButtonView.HideLoader();
-        spinTween.Kill();
     }
 
     public void ResetSprite()
     {
-        spinTween = galleryButtonView.StartLoadScreen();
         galleryButtonView.ShowLoader();
 
         galleryButtonView.ResetSprite();
@@ -67,7 +71,7 @@ public class GalleryButtonController : PoolableObject
 
     private void OnButtonClicked()
     {
-        ButtonClicked?.Invoke(galleryButtonModel.IsPremium);
+        ButtonClicked?.Invoke(this);
     }
 
     private void SetType()

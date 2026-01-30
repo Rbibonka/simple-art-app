@@ -114,11 +114,14 @@ public class ImageLoader : IDisposable
 
     private async UniTask<Sprite> DownloadSpriteAsync(string url, CancellationToken ct)
     {
+        using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(ct, timeoutCts.Token);
+
         using var uwr = UnityWebRequestTexture.GetTexture(url);
 
         try
         {
-            await uwr.SendWebRequest().ToUniTask(cancellationToken: ct);
+            await uwr.SendWebRequest().ToUniTask(cancellationToken: linkedCts.Token);
 
             if (uwr.result != UnityWebRequest.Result.Success)
             {
@@ -136,6 +139,12 @@ public class ImageLoader : IDisposable
         }
         catch (OperationCanceledException)
         {
+            // Отличаем тайм-аут от внешней отмены при необходимости
+            if (timeoutCts.IsCancellationRequested && !ct.IsCancellationRequested)
+            {
+                Debug.LogWarning($"Image download timeout (10s): {url}");
+            }
+
             return null;
         }
         catch (Exception e)
