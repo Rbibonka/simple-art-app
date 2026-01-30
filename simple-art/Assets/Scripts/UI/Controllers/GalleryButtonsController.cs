@@ -20,16 +20,27 @@ public class GalleryButtonsController : MonoBehaviour
 
     private List<GalleryButtonController> items;
 
+    private BaseObjectPool<GalleryButtonController> galleryButtonPool;
+
     public async UniTask InitializeAsync()
     {
         items = new();
         imageLoader = new();
 
+        galleryButtonPool = new(imageButtonPrefab, content);
+
         for (int i = 1; i < 66; i++)
         {
-            var item = Instantiate(imageButtonPrefab, content);
-            item.Initialize(i);
+            var item = galleryButtonPool.GetFromPool();
 
+            bool isPremium = false;
+
+            if (i % 4 == 0)
+            {
+                isPremium = true;
+            }
+
+            item.Initialize(i, isPremium);
             items.Add(item);
         }
 
@@ -53,9 +64,9 @@ public class GalleryButtonsController : MonoBehaviour
             return;
         }
 
-        imageButton.StartLoading();
+        imageButton.EnableLoading();
 
-        imageLoader.Enqueue(imageButton.ImageIndex, sprite =>
+        imageLoader.Enqueue(imageButton.Index, sprite =>
         {
             if (sprite != null)
             {

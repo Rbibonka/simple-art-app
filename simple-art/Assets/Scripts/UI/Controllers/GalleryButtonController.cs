@@ -1,31 +1,48 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GalleryButtonController : MonoBehaviour
+public class GalleryButtonController : PoolableObject
 {
-    public int ImageIndex => imageIndex;
+    public int Index => galleryButtonModel.Index;
 
-    public bool IsLoading => isLoading;
+    public bool IsLoading => galleryButtonModel.IsLoading;
 
     [SerializeField]
-    private Image image;
+    private Image img_Content;
 
-    private int imageIndex;
+    [SerializeField]
+    private RectTransform grp_Premium;
 
-    private bool isLoading;
+    private GalleryButtonModel galleryButtonModel;
+    private GalleryButtonView galleryButtonView;
 
-    public void Initialize(int imageIndex)
+    public void Initialize(int index, bool isPremium)
     {
-        this.imageIndex = imageIndex;
+        galleryButtonModel = new(index, isPremium);
+        galleryButtonView = new(grp_Premium, img_Content);
+
+        SetType();
     }
 
-    public void StartLoading()
+    public void EnableLoading()
     {
-        isLoading = true;
+        galleryButtonModel.SetLoading(true);
     }
 
     public void SetSprite(Sprite sprite)
     {
-        image.sprite = sprite;
+        galleryButtonView.SetSprite(sprite);
+    }
+
+    private void SetType()
+    {
+        if (galleryButtonModel.IsPremium)
+        {
+            galleryButtonView.EnablePremium();
+        }
+        else
+        {
+            galleryButtonView.DisablePremium();
+        }
     }
 }
