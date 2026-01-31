@@ -38,5 +38,11 @@
   <img src="simple-art/Assets/PreviewContent/LoadView.gif" alt="LoadView" />
 </p>
 
+### Анимации кнопок и попапы:
+<p align="center">
+  <img src="simple-art/Assets/PreviewContent/ButtonView.gif" alt="ButtonView" />
+</p>
+
+
 ---
-### Также в игре есть конфиги настройки уровней, построение пути и визуализация в editor, юниты обходят друг друга и многое другое, но это уже в билде
+## На уровне движка есть проверка на тип устройства пользователя, а также debug мод для тстирования. 
