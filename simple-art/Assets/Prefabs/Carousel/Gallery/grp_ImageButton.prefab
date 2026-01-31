@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 8750099653017319863}
   - component: {fileID: 4870495975501219355}
   - component: {fileID: 5452046010678642972}
+  - component: {fileID: 4804130559369284835}
   m_Layer: 5
   m_Name: grp_ImageButton
   m_TagString: Untagged
@@ -527,3 +528,16 @@ MonoBehaviour:
   img_Content: {fileID: 1704345957663501392}
   grp_Premium: {fileID: 2632119726483228929}
   loader: {fileID: 7018215619352930505}
+--- !u!114 &4804130559369284835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8224068690268093194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcdba8b6070b7984bb2e1057539a11e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8750099653017319863}
