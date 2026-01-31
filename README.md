@@ -25,19 +25,17 @@
 
 ### Карусель, которая меняет изображение каждые 5 секунд: 
 <p align="center">
-  <img src="simple-art/Assets/RPreviewContent/CarouselView.gif" alt="CarouselView" />
+  <img src="simple-art/Assets/PreviewContent/CarouselView.gif" alt="CarouselView" />
 </p>
 
-### Поиск пути:
-#### Алгоритм для поиска пути используется А* путь строится только на торпинке
+### Небольшые анимации скролла и таб бара:
 <p align="center">
-  <img src="PathFinder/Assets/ReadmeContent/PathFinderDemo.gif" alt="PathFinderDemo.gif" />
+  <img src="simple-art/Assets/PreviewContent/ScrollView.gif" alt="ScrollView" />
 </p>
 
-### Движения и анимации
-#### В зависимости от повехронсти на которой стоит юнит его анимация и скорость будут изменяться.
+### Загрузка данные по мере продивжения скролла:
 <p align="center">
-  <img src="PathFinder/Assets/ReadmeContent/SurfaceDemo.gif" alt="SurfaceDemo.gif" />
+  <img src="simple-art/Assets/PreviewContent/LoadView.gif" alt="LoadView" />
 </p>
 
 ---
