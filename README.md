@@ -45,4 +45,8 @@
 
 
 ---
-## На уровне движка есть проверка на тип устройства пользователя, а также debug мод для тстирования. 
+## Есть проверка на тип устройства пользователя, а также на уровне движка debug мод для тeтирования. 
+<p align="center">
+  <img src="simple-art/Assets/PreviewContent/Config.PNG" alt="Config" />
+  <img src="simple-art/Assets/PreviewContent/Phone.PNG" alt="Phone" />
+</p>
